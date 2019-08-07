@@ -10,6 +10,8 @@ cd ..\libpng
 clean
 cd ..\libtiff
 clean
+cd ..\libwebp
+clean
 cd ..\zlib
 clean
 cd ..
