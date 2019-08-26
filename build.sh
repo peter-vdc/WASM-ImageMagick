@@ -1,41 +1,29 @@
 
-export CPPFLAGS="-I/code/libpng -I/code/zlib -I/code/libjpeg -I/code/libtiff/libtiff -I/code/libwebp -I/code/libwebp/src -I/code/libwebp/src/webp"
-export LDFLAGS="-L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/libtiff/libtiff -L/code/libwebp -L/code/libwebp/src  -L/code/libwebp/src/webp"
+export CPPFLAGS="-I/code/libpng -I/code/zlib -I/code/libjpeg -I/code/libtiff/libtiff -I/code/libwebp -I/code/libwebp/src -I/code/libwebp/src/webp -I/code/libimagequant"
+export LDFLAGS="-L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/libtiff/libtiff -L/code/libwebp -L/code/libwebp/src -L/code/libwebp/src/webp -L/code/libimagequant"
 export CFLAGS="-O3"
 export CXXFLAGS="$CFLAGS"
-MAKE_FLAGS="-s BINARYEN_TRAP_MODE=clamp -s ALLOW_MEMORY_GROWTH=1"
+MAKE_FLAGS="-s BINARYEN_TRAP_MODE=clamp -s ALLOW_MEMORY_GROWTH=1 -s ENVIRONMENT=node"
 
 # export CFLAGS="-O0 -g2"
 # export CXXFLAGS="$CFLAGS"
 # MAKE_FLAGS="-s BINARYEN_TRAP_MODE=clamp -s ALLOW_MEMORY_GROWTH=1 -s SAFE_HEAP=1 -s ASSERTIONS=1"
 
-export PKG_CONFIG_PATH="/code/libpng:/code/zlib:/code/libjpeg:/code/libtiff:/code/libtiff/libtiff:/code/libwebp:/code/libwebp/src:"
+export PKG_CONFIG_PATH="/code/libpng:/code/zlib:/code/libjpeg:/code/libtiff:/code/libtiff/libtiff:/code/libwebp:/code/libwebp/src:/code/libwebp/src:webp:/code/libimagequant"
 export PNG_LIBS="-L/code/libpng -L/code/libpng/.libs"
 
-echo "                   _ _             _ _ _   "
-echo " ___ ___ _____ ___|_| |___     ___| |_| |_ "
-echo "|  _| . |     | . | | | -_|   |- _| | | . |"
-echo "|___|___|_|_|_|  _|_|_|___|   |___|_|_|___|"
-echo "              |_|                          "
+figlet "Compile zlib..."
 cd /code/zlib
 emconfigure ./configure --static
 emcmake make $MAKE_FLAGS CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" 
 
-echo "                   _ _          _             "
-echo " ___ ___ _____ ___|_| |___     |_|___ ___ ___ "
-echo "|  _| . |     | . | | | -_|    | | . | -_| . |"
-echo "|___|___|_|_|_|  _|_|_|___|   _| |  _|___|_  |"
-echo "              |_|            |___|_|     |___|"
+figlet "Compile jpeg-lib..."
 cd /code/libjpeg
 autoreconf -fvi
 emconfigure ./configure --disable-shared
 emcmake make $MAKE_FLAGS CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" 
 
-echo "                   _ _                  _       "
-echo " ___ ___ _____ ___|_| |___    _ _ _ ___| |_ ___ "
-echo "|  _| . |     | . | | | -_|  | | | | -_| . | . |"
-echo "|___|___|_|_|_|  _|_|_|___|  |_____|___|___|  _|"
-echo "              |_|                          |_|  "
+figlet "Compile webp-lib..."
 cd /code/libwebp
 libtoolize
 ./autogen
@@ -44,11 +32,7 @@ automake --add-missing
 emconfigure ./configure --disable-shared
 emcmake make $MAKE_FLAGS CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" 
 
-echo "                   _ _                    "
-echo " ___ ___ _____ ___|_| |___    ___ ___ ___ "
-echo "|  _| . |     | . | | | -_|  | . |   | . |"
-echo "|___|___|_|_|_|  _|_|_|___|  |  _|_|_|_  |"
-echo "              |_|            |_|     |___|"
+figlet "Compile png-lib..."
 cd /code/libpng
 libtoolize
 # aclocal
@@ -58,11 +42,7 @@ automake --add-missing
 emconfigure ./configure --disable-shared
 emcmake make $MAKE_FLAGS CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" 
 
-echo "                   _ _        _   _ ___ ___ "
-echo " ___ ___ _____ ___|_| |___   | |_|_|  _|  _|"
-echo "|  _| . |     | . | | | -_|  |  _| |  _|  _|"
-echo "|___|___|_|_|_|  _|_|_|___|  |_| |_|_| |_|  "
-echo "              |_|                           "
+figlet "Compile tiff-lib..."
 cd /code/libtiff
 libtoolize --force
 ###
@@ -80,22 +60,14 @@ autoreconf
 emconfigure ./configure --disable-shared
 emcmake make $MAKE_FLAGS CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" 
 
-echo "           _          _____                   _____         _     _   "
-echo " _____ ___| |_ ___   |     |_____ ___ ___ ___|     |___ ___|_|___| |_ "
-echo "|     | .'| '_| -_|  |-   -|     | .'| . | -_| | | | .'| . | |  _| '_|"
-echo "|_|_|_|__,|_,_|___|  |_____|_|_|_|__,|_  |___|_|_|_|__,|_  |_|___|_,_|"
-echo "                                     |___|             |___|          "
+figlet "Compile ImageMagick..."
 cd /code/ImageMagick
 autoconf
 #emconfigure ./configure --prefix=/ --disable-shared --without-threads --without-magick-plus-plus --without-perl --without-x --disable-largefile --disable-openmp --without-bzlib --without-dps --without-freetype --without-jbig --without-openjp2 --without-lcms --without-wmf --without-xml --without-fftw --without-flif --without-fpx --without-djvu --without-fontconfig --without-raqm --without-gslib --without-gvc --without-heic --without-lqr --without-openexr --without-pango --without-raw --without-rsvg --without-xml PKG_CONFIG_PATH="/code/libpng:/code/libpng/.libs:/code/zlib:/code/libjpeg:/code/libtiff:/code/libtiff/libtiff:/code/libwebp:/code/libwebp/src:/code/libwebp/src/webp:"
-emconfigure ./configure --prefix=/ --disable-shared --without-threads --without-magick-plus-plus --without-perl --without-x --disable-largefile --disable-openmp --without-bzlib --without-dps --without-freetype --without-jbig --without-openjp2 --without-lcms --without-wmf --without-xml --without-fftw --without-flif --without-fpx --without-djvu --without-fontconfig --without-raqm --without-gslib --without-gvc --without-heic --without-lqr --without-openexr --without-pango --without-raw --without-rsvg --without-xml PKG_CONFIG_PATH="/code/libpng:/code/zlib:/code/libjpeg:/code/libtiff:/code/libtiff/libtiff:/code/libwebp:/code/libwebp/src:/code/libwebp/src/webp:"
+emconfigure ./configure --prefix=/ --disable-shared --without-threads --without-magick-plus-plus --without-perl --without-x --disable-largefile --disable-openmp --without-bzlib --without-dps --without-freetype --without-jbig --without-openjp2 --without-lcms --without-wmf --without-xml --without-fftw --without-flif --without-fpx --without-djvu --without-fontconfig --without-raqm --without-gslib --without-gvc --without-heic --without-lqr --without-openexr --without-pango --without-raw --without-rsvg --without-xml PKG_CONFIG_PATH="/code/libpng:/code/zlib:/code/libjpeg:/code/libtiff:/code/libtiff/libtiff:/code/libwebp:/code/libwebp/src:/code/libwebp/src/webp:/code/imagequant:"
 emcmake make $MAKE_FLAGS CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS" 
 
-echo "                 _                  _           _   "
-echo " ___ ___ ___ ___| |_ ___    ___ _ _| |_ ___ _ _| |_ "
-echo "|  _|  _| -_| .'|  _| -_|  | . | | |  _| . | | |  _|"
-echo "|___|_| |___|__,|_| |___|  |___|___|_| |  _|___|_|  "
-echo "                                       |_|          "
+figlet "Creating output files..."
 #produce the correct output file
 #/bin/bash ./libtool --silent --tag=CC --mode=link emcc --pre-js /code/webworker.js $MAKE_FLAGS $CXXFLAGS -L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/libwebp -L/code/libwebp/src -o utilities/magick.html utilities/magick.o MagickCore/libMagickCore-7.Q16HDRI.la MagickWand/libMagickWand-7.Q16HDRI.la 
-/bin/bash ./libtool --silent --tag=CC --mode=link emcc $MAKE_FLAGS $CXXFLAGS -L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/libwebp -L/code/libwebp/src -o utilities/magick.html utilities/magick.o MagickCore/libMagickCore-7.Q16HDRI.la MagickWand/libMagickWand-7.Q16HDRI.la
+/bin/bash ./libtool --tag=CC --mode=link emcc $MAKE_FLAGS $CXXFLAGS -L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/zlib -L/code/libpng -L/code/libpng/.libs -L/code/libjpeg -L/code/libwebp -L/code/libwebp/src -L/code/libimagequant -o utilities/magick.html utilities/magick.o MagickCore/libMagickCore-7.Q16HDRI.la MagickWand/libMagickWand-7.Q16HDRI.la

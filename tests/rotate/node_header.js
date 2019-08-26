@@ -75,7 +75,7 @@ function ConvertImage(sourceFileName, destinationFileName, convertArgs = [])
 
 function RotateFile(sourceFileName, destinationFileName)
 {
-    return ConvertImage(sourceFileName, destinationFileName, convertArgs = ["-rotate", "90"])
+    return ConvertImage(sourceFileName, destinationFileName, convertArgs = ["-rotate", "90", "-quality", "80"])
 }
 
 function ValidateFilesSame(leftFileName, rightFileName)
@@ -102,6 +102,10 @@ Module.onRuntimeInitialized = function (){
     RotateFile('to_rotate.png', 'rotated.png');
     ValidateFormat('to_rotate.png', 'PNG');
     ValidateFilesSame('rotated.png', 'rotatedKnownGood.png');
+    
+    console.log('\ntesting if webp processing works');
+    RotateFile('to_rotate.png', 'rotated.webp');
+    ValidateFormat('rotated.webp', 'WEBP');
 
     console.log('\ntesting if jpg is working');
     RotateFile('to_rotate.jpg', 'rotated.jpg');
@@ -111,7 +115,6 @@ Module.onRuntimeInitialized = function (){
     RotateFile('to_rotate.tiff', 'rotated.tiff');
     ValidateFormat('rotated.tiff', 'TIFF');
     
-
     console.log('\ntesting if photoshop is working');
     RotateFile('to_rotate.psd', 'rotated.psd');
     ValidateFormat('rotated.psd', 'PSD');
