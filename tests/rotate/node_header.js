@@ -110,7 +110,7 @@ Module.onRuntimeInitialized = function (){
     console.log('\ntesting if jpg is working');
     RotateFile('to_rotate.jpg', 'rotated.jpg');
     ValidateFormat('rotated.jpg', 'JPEG');
-
+/*
     console.log('\ntesting if tiff is working');
     RotateFile('to_rotate.tiff', 'rotated.tiff');
     ValidateFormat('rotated.tiff', 'TIFF');
@@ -123,7 +123,7 @@ Module.onRuntimeInitialized = function (){
     console.log('\ntesting if gimp is working');
     RotateFile('to_rotate.xcf', 'rotated.xcf.png');
     ValidateFormat('to_rotate.xcf', 'XCF');
-
+*/
     if(!ConvertImage('FriedrichNietzsche.png', 'FriedrichNietzsche-charcoal.png', ["-charcoal", "5"]))
     {
         console.log("Process IMage threw");

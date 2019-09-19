@@ -13,4 +13,4 @@ RUN apt-get -o Acquire::Check-Valid-Until=false update
 
 
 RUN apt-get update -y
-RUN apt-get install -y autoconf libtool shtool autogen pkg-config
+RUN apt-get install -y autoconf libtool shtool autogen pkg-config figlet
